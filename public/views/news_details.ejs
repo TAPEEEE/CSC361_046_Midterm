@@ -18,120 +18,104 @@
 
     <!-- Nav ค้าบบบ -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark p-lg-3"
-        style="font-family: Kanit;">
-        <div class="container">
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo03"
-                aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+		style="font-family: Kanit;">
+		<div class="container">
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo03"
+				aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
 
-            <a class="navbar-brand" href="#">
-                <img src="http://cosci.swu.ac.th/img/logo.svg" width="135" height="40" class="d-inline-block align-top"
-                    alt="">
-            </a>
-            <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
-                <ul class="navbar-nav me-auto mb-3 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/news">News</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/login">Academic</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/login">Showcase</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/login">Gallery</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/login">Contact Us</a>
-                    </li>
-                </ul>
-                <form class="d-flex" role="search" action="/logout" method="post">
-                    <button class="btn btn-danger" type="submit">Logout / ออกจากระบบ</button>
-                </form>
-            </div>
-        </div>
-    </nav>
+			<a class="navbar-brand" href="#">
+				<img src="http://cosci.swu.ac.th/img/logo.svg" width="135" height="40" class="d-inline-block align-top"
+					alt="">
+			</a>
+			<div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+				<ul class="navbar-nav me-auto mb-3 mb-lg-0">
+					<li class="nav-item">
+						<a class="nav-link" href="/">Home</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link active" href="/news">News</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/academic">Academic</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/showcase">Showcase</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/gallery">Gallery</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/contact">Contact Us</a>
+					</li>
+				</ul>
+				<form class="d-flex" role="search" action="/login">
+					<button class="btn btn-success" type="submit">เข้าสู่ระบบ</button>
+				</form>
+			</div>
+		</div>
+	</nav>
 
     <div class="container mt-5">
-        <div class="card border-0 mb-3 px-2 py-2 shadow p-3 mb-5 bg-body rounded" style="max-width: 1250px;">
-            <h4 class="card-title mx-3 my-3 text-primary">Card title</h4>
-            <img src="../image/news1.png" class="card-img-top p-3" alt="...">
-            <div class="card-body">
-            <h5 class="card-title px-4">Card title</h5>
-            <p class="card-text px-4">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+        <% Object.values(news).forEach(function(news){ %>
+            <div class="card border-0 mb-3 px-2 py-2 shadow p-3 mb-5 bg-body rounded" style="max-width: 1250px;">
+                <h3 class="card-title mx-3 my-3 text-primary"><%= news.title %></h3>
+                <img src="<%= news.cover %>" class="card-img-top p-5 w-75" alt="...">
+                <div class="card-body">
+                <h4 class="card-title px-4"><%= news.title %></h4>
+                <p class="card-text px-4"><%= news.detail %></p>
+                </div>
             </div>
-        </div>
+        <% }) %>
     </div>
     
 
     <footer class="bg-dark text-white text-center text-lg-start mt-5">
-        <!-- Grid container -->
-        <div class="container p-4">
-            <!--Grid row-->
-            <div class="row">
-                <!--Grid column-->
-                <div class="col-lg-6 col-md-12 mb-4 mb-md-0">
-                    <h5 class="text-uppercase">Footer Content</h5>
+		<div class="container p-4">
+			<div class="row">
+				<div class="col-lg-6 col-md-12 mb-4 mb-md-0">
+					<h5 class="text-uppercase">College of Social Communication Innovation</h5>
+					<p>
+						TEL. 02-649-5000 EXT 11275 , 02-259-2343 EMAIL. PRCOSCISWU@GMAIL.COM
+					</p>
+				</div>
+				<div class="col-lg-3 col-md-6 mb-4 mb-md-0">
+					<h5 class="text-uppercase">Menu</h5>
 
-                    <p>
-                        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Iste atque ea quis
-                        molestias. Fugiat pariatur maxime quis culpa corporis vitae repudiandae aliquam
-                        voluptatem veniam, est atque cumque eum delectus sint!
-                    </p>
-                </div>
-                <!--Grid column-->
+					<ul class="list-unstyled mb-0">
+						<li>
+							<a href="/news" class="text-white">News</a>
+						</li>
+						<li>
+							<a href="/showcase" class="text-white">ShowCase</a>
+						</li>
+						<li>
+							<a href="/gallery" class="text-white">Gallery</a>
+						</li>
+						<li>
+							<a href="/login" class="text-white">Login</a>
+						</li>
+					</ul>
+				</div>
+				<div class="col-lg-3 col-md-6 mb-4 mb-md-0">
+					<h5 class="text-uppercase mb-0">Menu</h5>
 
-                <!--Grid column-->
-                <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
-                    <h5 class="text-uppercase">Links</h5>
-
-                    <ul class="list-unstyled mb-0">
-                        <li>
-                            <a href="#!" class="text-white">Link 1</a>
-                        </li>
-                        <li>
-                            <a href="#!" class="text-white">Link 2</a>
-                        </li>
-                        <li>
-                            <a href="#!" class="text-white">Link 3</a>
-                        </li>
-                        <li>
-                            <a href="#!" class="text-white">Link 4</a>
-                        </li>
-                    </ul>
-                </div>
-                <!--Grid column-->
-
-                <!--Grid column-->
-                <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
-                    <h5 class="text-uppercase mb-0">Links</h5>
-
-                    <ul class="list-unstyled">
-                        <li>
-                            <a href="#!" class="text-white">Link 1</a>
-                        </li>
-                        <li>
-                            <a href="#!" class="text-white">Link 2</a>
-                        </li>
-                        <li>
-                            <a href="#!" class="text-white">Link 3</a>
-                        </li>
-                        <li>
-                            <a href="#!" class="text-white">Link 4</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
-            © 2021 Copyright: เทปเองค้าบบบ
-        </div>
-    </footer>
+					<ul class="list-unstyled">
+						<li>
+							<a href="/academic" class="text-white">Academic</a>
+						</li>
+						<li>
+							<a href="/logout" class="text-white">Logout</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+			© 2022 Copyright: เทปเองค้าบบบ
+		</div>
+	</footer>
 
 
 </body>
