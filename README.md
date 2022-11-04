@@ -4,8 +4,4 @@
  ----- |
 046 Nattapon Suwanno |
 
-[Imgur](https://imgur.com/jiJEUVt)
-[Imgur](https://imgur.com/6i7QloZ)
-[Imgur](https://imgur.com/1MglrIg)
-[Imgur](https://imgur.com/j9OkmJx)
-[Imgur](https://imgur.com/Zr7YiEJ)
+<blockquote class="imgur-embed-pub" lang="en" data-id="jiJEUVt"><a href="https://imgur.com/jiJEUVt">View post on imgur.com</a></blockquote><script async src="//s.imgur.com/min/embed.js" charset="utf-8"></script>
