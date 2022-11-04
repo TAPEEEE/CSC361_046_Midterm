@@ -9,7 +9,21 @@ const showcase = require('./data/showcase')
 const gallery = require('./data/gallery')
 const academic = require('./data/academic');
 const store = require("store2");
+const mysql = require('mysql')
+const connection = mysql.createConnection ({
+    host: 'localhost',
+    user: 'root',
+    password: '',
+    database: 'assignment2'
+});
 
+connection.connect((err) => {
+    if (err) {
+        throw err;
+    }
+    console.log('Connected to database');
+});
+global.db = connection;
 
 router.use(bodyParser.urlencoded({
     extended: false
@@ -33,38 +47,117 @@ function user(username, password) {
 }
 
 router.get('/login', function (req, res) {
-    res.sendFile(path.join(__dirname, "/public/views/login.html"));
+    connection.query("SELECT * FROM timestamp", (err, results) =>{
+        res.render("login.ejs", {
+            posts: results
+        });
+        console.log(results);
+    });
+    
 })
+
+router.get('/add', (req, res) => {
+    res.render("add.ejs")
+})
+
 
 router.get('/contact', function (req, res) {
     let localData = store.getAll()
-    res.render('contact.ejs', {localData:localData})
+    connection.query("SELECT * FROM timestamp", (err, results) =>{
+        res.render("contact.ejs", {
+            posts: results,
+            localData: localData
+        });
+        console.log(results);
+    });
 })
 
 router.post('/contact', function (req, res) {
     store('Profile', {email: req.body.email, message: req.body.message});
     res.redirect('/contact')
-})
-
-
-router.post('/login', function (req, res) {
-    const _username = req.body.username
-    const _password = req.body.password
     
-    if (req.session.isLoggedIn != null && req.session.isLoggedIn == true) {
-        res.redirect("/")
-    }
-
-
-    if (user(req.body.username, req.body.password) == true) {
-        req.session.username = req.query.username
-        req.session.isLoggedIn = true
-        res.redirect("/")
-    } else {
-        res.sendFile(path.join(__dirname, "/public/views/login.html"));
-    }
 })
 
+
+router.post('/login', (req, res) => {
+    const username = req.body.username;
+    const password = req.body.password;
+    console.log(username, password)
+    if (username && password) {
+        connection.query("SELECT * FROM account WHERE username = ? AND password = ?",[username, password], (err, results, fields) => {
+                if (results.length > 0) {
+                    connection.query("INSERT INTO `timestamp`(`username`, `time`) VALUES" + `('${username}', now());`, function (err, result, fields) {
+                        if (err) throw err;
+                            console.log(result);
+                    });
+                    req.session.loggedin = true;
+                    req.session.username = username;
+                    res.redirect('/');
+                } else {
+                    res.send('Incorrect Username and/or Password!');
+                }
+                res.end();
+            }
+        );
+    } else {
+        res.send('Please enter Username and Password')
+        res.end()
+    }
+});
+
+router.post('/add', (req, res) => {
+    const username = req.body.username;
+    const password = req.body.password;
+    const email = req.body.email;
+    connection.query("INSERT INTO `accounts`(`username`, `password`, `email`) VALUES" + `('${username}','${password}','${email}');`, function (err, result, fields) {
+        if (err) throw err;
+            console.log(result);
+            res.redirect('/contact');
+    });
+});
+
+router.get('/edit/:id', (req, res) => {
+    const edit_postID = req.params.id;
+
+    connection.query(
+        "SELECT * FROM account WHERE id=?", 
+        [edit_postID],
+        (err, results) => {
+            if (results) {
+                res.render('edit.ejs', {
+                    post: results[0],
+                });
+            }
+        }
+    );
+});
+router.post('/edit/:id', (req, res) => {
+    const update_username = req.body.username;
+
+    const update_password = req.body.password;
+    const update_email = req.body.email;
+    const id = req.params.id;
+    connection.query(
+        "UPDATE account SET username = ?,password = ?,email = ? WHERE id = ?",
+        [update_username, update_password, update_email,id],
+        (err, results) => {
+            if (results.changedRows === 1) {
+                console.log("Post Updated");
+            }
+            return res.redirect('/contact');
+        }
+    );
+});
+
+router.get('/delete/:id', (req, res) => {
+    connection.query(
+        "DELETE FROM account WHERE id = ?",
+        [req.params.id],
+        (err, results) => {
+            return res.redirect('/contact');
+        }
+    );
+});
 
 router.get('/', (req, res) => {
     res.render('index.ejs', {news:news, broadcast:broadcast, showcase:showcase})
@@ -127,6 +220,22 @@ router.get('/gallery/:id', (req, res) => {
         res.redirect('/error')
     }
 })
+
+router.get('/register', (req, res) => {
+    res.render("register.ejs")
+})
+
+router.post('/register', (req, res) => {
+    const username = req.body.username;
+    const password = req.body.password;
+    const email = req.body.email;
+    connection.query("INSERT INTO `account`(`username`, `password`, `email`) VALUES" + `('${username}','${password}','${password}');`, function (err, result, fields) {
+        if (err) throw err;
+            console.log(result);
+            res.redirect('/');
+    });
+});
+
 
 router.get('/academic/:id', (req, res) => {
     if (req.session.isLoggedIn != null && req.session.isLoggedIn == true) {  
